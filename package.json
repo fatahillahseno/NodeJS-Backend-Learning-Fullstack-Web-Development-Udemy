@@ -13,11 +13,12 @@
   "license": "MIT",
   "author": "Sense",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "date-fns": "^4.1.0"
+    "date-fns": "^4.1.0",
+    "express": "^4.21.1"
   }
 }
