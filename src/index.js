@@ -6,7 +6,7 @@ const port = 3001; // range port number: 0 to 65535, http://localhost:3001/
 
 // get route
 app.get("/", (req, res) => {
-  console.log(req);
+  console.log("Testing");
   res.send("Hello World!");
 });
 
