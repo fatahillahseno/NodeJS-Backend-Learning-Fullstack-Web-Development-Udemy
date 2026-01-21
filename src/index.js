@@ -5,8 +5,12 @@ const app = express(); // an app object / an express app
 const port = 3001; // range port number: 0 to 65535, http://localhost:3001/
 
 // get route
-app.get("/", (req, res) => {
-  console.log("Testing");
+app.get("/:category", (req, res) => {
+  console.log("Request URL:", req.url);
+  console.log("Request Params:", req.params);
+  console.log("Request Query:", req.query);
+  console.log("Request Header:", req.headers);
+  console.log("Request Method:", req.method);
   res.send("Hello World!");
 });
 
