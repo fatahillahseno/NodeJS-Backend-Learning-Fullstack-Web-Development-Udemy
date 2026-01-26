@@ -1,20 +1,44 @@
-const express = require("express"); // a function that give you ability to make an app, when it's invoked
-const app = express(); // an app object / an express app
+const express = require("express");
+const app = express();
+const port = 3001;
 
-// that app need to be passed a port number to listen port number in machine
-const port = 3001; // range port number: 0 to 65535, http://localhost:3001/
-
-// when we declare url paramaters, we use colon ( : ) to start with, ex: /:category
-app.get("/users/:role/", (req, res) => {
-  console.log("Request Params:", req.params);
-  console.log("Request Query:", req.query);
+// ketika ingin memberikan url berupa pemisah titik
+// bisa menggunakan titik ( . )
+app.get("/some.text", (req, res) => {
+  console.log("Request URL:", req.url);
   res.send("Hello World!");
 });
 
-// jika ingin membuat request namun url parameters nya bersifat opsional/sementara
-// gunakan question mark ( ? ),ex: /:users?
-app.get("/tasks/:users?", (req, res) => {
-  console.log("Request Params:", req.params);
+// membuat suatu karakter menjadi opsional
+// bisa menggunakan question tag ( ? )
+app.get("/posts?", (req, res) => {
+  console.log("Request URL:", req.url);
+  res.send("Hello World!");
+});
+
+// membuat lebih dari satu karakter menjadi opsional
+// bisa menggunakan wild card symbol ( * )
+// symbol membuat apapun kata setelah kata utama diikuti ( * ) akan bisa dimasukkan karakter lain
+app.get("/tag*", (req, res) => {
+  console.log("Request URL:", req.url);
+  res.send("Hello World!");
+});
+
+// endpoint api untuk error
+app.get("/error/*", (req, res) => {
+  console.log("Request URL:", req.url);
+  res.send("Hello World!");
+});
+
+// apapun huruf atau kata dapat dimasukkan pada tanda *
+// route yang dituju harus berakhiran fly
+// ada huruf atau kata setelah fly, tidak bisa diakses
+app.get(/.*fly$/, (req, res) => {
+  console.log("Request URL:", req.url);
+  res.send("Hello World!");
+});
+app.get("/*star", (req, res) => {
+  console.log("Request URL:", req.url);
   res.send("Hello World!");
 });
 
