@@ -3,9 +3,13 @@ const express = require("express");
 const tasksRouter = express.Router();
 
 tasksRouter.get("/tasks", (req, res) => {
-  console.log(req.info);
-  return res.send(req.info);
+  return res.send("Hello World");
 });
-tasksRouter.post("/tasks", (req, res) => res.send("Created Tasks"));
+
+tasksRouter.post("/tasks", (req, res) => {
+  console.log(req.body);
+  console.log(typeof req.body);
+  return res.send("Created Tasks");
+});
 
 module.exports = tasksRouter;
