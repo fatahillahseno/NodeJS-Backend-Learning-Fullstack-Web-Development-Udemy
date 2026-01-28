@@ -4,7 +4,7 @@ const tasksRouter = express.Router();
 
 tasksRouter.get("/tasks", (req, res) => {
   return res.send("Hello World");
-})5;
+});
 
 tasksRouter.post("/tasks", (req, res) => {
   console.log(req.body);
