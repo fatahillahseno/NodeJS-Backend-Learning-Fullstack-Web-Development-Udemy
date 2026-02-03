@@ -27,12 +27,7 @@ function handleGetTasks(req, res) {
       status: "todo",
     },
   ];
-  res.status(StatusCodes.OK).json({
-    status: "Success",
-    statusCode: StatusCodes.OK,
-    message: ReasonPhrases.OK,
-    data: response,
-  });
+  res.status(StatusCodes.OK).json(response);
 }
 
 function handlePostTasks(req, res) {

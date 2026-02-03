@@ -8,6 +8,9 @@ const cors = require("cors");
 // route
 const tasksRouter = require("./tasks/tasks.router.js");
 
+// middleware
+const responseFormatter = require("./middleware/responseFormatter.middleware.js");
+
 // 1. untuk logging
 const morgan = require("morgan");
 const fs = require("fs");
@@ -33,10 +36,15 @@ app.use(cors()); // membiarkan semua domain mengakses api
 // middleware untuk membaca json request
 app.use(express.json());
 
-// 4. defines routes
+// 4. Response Formatter Middleware
+// middleware untuk memformat response
+// menempatkan di setelah semua middleware lain tetapi sebelum route
+app.use(responseFormatter);
+
+// 5. defines routes
 app.use("/", tasksRouter);
 
-// 5. App listen port
+// 6. App listen port
 app.listen(port, () => {
   console.log(`App listening on port number ${port}`);
 });
