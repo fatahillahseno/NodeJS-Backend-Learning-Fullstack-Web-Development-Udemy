@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const port = 3001;
 
+// untuk status code
+const { StatusCodes } = require("http-status-codes");
+
 // security
 const cors = require("cors");
 
@@ -43,6 +46,11 @@ app.use(responseFormatter);
 
 // 5. defines routes
 app.use("/", tasksRouter);
+
+// 6. default route untuk endpoints yang tidak ditemukan
+app.use((req, res) => {
+  res.status(StatusCodes.NOT_FOUND).json(null);
+});
 
 // 6. App listen port
 app.listen(port, () => {
