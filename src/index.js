@@ -1,18 +1,20 @@
+// set up express app
 const express = require("express");
 const app = express();
 const port = 3001;
 
-// untuk status code
+// import status code
 const { StatusCodes } = require("http-status-codes");
 
-// security
+// import security
 const cors = require("cors");
 
-// route
+// import route
 const tasksRouter = require("./tasks/tasks.router.js");
 const authRouter = require("./auth/auth.router.js");
+const usersRouter = require("./users/users.router.js");
 
-// middleware
+// import middleware
 const responseFormatter = require("./middleware/responseFormatter.middleware.js");
 
 // 1. untuk logging
@@ -47,14 +49,15 @@ app.use(responseFormatter);
 
 // 5. defines routes
 app.use("/", tasksRouter);
-app.use("/", authRouter);
+app.use("/auth", authRouter);
+app.use("/users", usersRouter);
 
 // 6. default route untuk endpoints yang tidak ditemukan
 app.use((req, res) => {
   res.status(StatusCodes.NOT_FOUND).json(null);
 });
 
-// 6. App listen port
+// 7. App listen port
 app.listen(port, () => {
   console.log(`App listening on port number ${port}`);
 });
