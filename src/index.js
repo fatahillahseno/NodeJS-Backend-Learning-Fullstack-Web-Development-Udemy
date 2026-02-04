@@ -10,6 +10,7 @@ const cors = require("cors");
 
 // route
 const tasksRouter = require("./tasks/tasks.router.js");
+const authRouter = require("./auth/auth.router.js");
 
 // middleware
 const responseFormatter = require("./middleware/responseFormatter.middleware.js");
@@ -46,6 +47,7 @@ app.use(responseFormatter);
 
 // 5. defines routes
 app.use("/", tasksRouter);
+app.use("/", authRouter);
 
 // 6. default route untuk endpoints yang tidak ditemukan
 app.use((req, res) => {
