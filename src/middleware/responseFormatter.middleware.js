@@ -1,7 +1,7 @@
 const { getReasonPhrase } = require("http-status-codes");
 
 function responseFormatter(req, res, next) {
-  const originalJSON = res.json;
+  const originalJSON = res.json; // originalJSON adalah method json bawaan dari express
 
   res.json = (data) => {
     const response = {

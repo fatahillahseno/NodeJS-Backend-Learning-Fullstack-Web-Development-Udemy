@@ -1,3 +1,6 @@
+const dns = require("node:dns/promises");
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 // set up express app
 const express = require("express");
 const app = express();
@@ -16,6 +19,9 @@ const usersRouter = require("./users/users.router.js");
 
 // import middleware
 const responseFormatter = require("./middleware/responseFormatter.middleware.js");
+
+// import npm mongoose
+const mongoose = require("mongoose");
 
 // 1. untuk logging
 const morgan = require("morgan");
@@ -57,7 +63,20 @@ app.use((req, res) => {
   res.status(StatusCodes.NOT_FOUND).json(null);
 });
 
+async function bootstrap() {
+  try {
+    await mongoose.connect(
+      "mongodb+srv://seno:masukDB@nodejs.mzlse5b.mongodb.net/?appName=nodejs",
+    );
+    console.log("Connected to MongoDB");
+    app.listen(port, () => {
+      console.log(`App listening on port number ${port}`);
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
 // 7. App listen port
-app.listen(port, () => {
-  console.log(`App listening on port number ${port}`);
-});
+bootstrap();
