@@ -1,4 +1,5 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const Task = require("./task.schema.js");
 
 function handleGetTasks(req, res) {
   let response = [
@@ -30,8 +31,21 @@ function handleGetTasks(req, res) {
   res.status(StatusCodes.OK).json(response);
 }
 
-function handlePostTasks(req, res) {
-  res.status(201).send("POST Task Controller");
+async function handlePostTasks(req, res) {
+  // buat task
+  const task = new Task({
+    title: req.body.title,
+    description: req.body.description,
+    status: req.body.status,
+    priority: req.body.priority,
+    dueDate: req.body.dueDate,
+  });
+
+  // tunggu sampai data tersimpan ke database
+  await task.save();
+
+  // kirim response ke client
+  res.status(StatusCodes.CREATED).json(task);
 }
 
 function handlePatchTasks(req, res) {

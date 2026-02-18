@@ -33,8 +33,9 @@ const taskSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 
 const Task = model("Task", taskSchema);
-module.export = Task;
+module.exports = Task;

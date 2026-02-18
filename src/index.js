@@ -66,7 +66,7 @@ app.use((req, res) => {
 async function bootstrap() {
   try {
     await mongoose.connect(
-      "mongodb+srv://seno:masukDB@nodejs.mzlse5b.mongodb.net/?appName=nodejs",
+      "mongodb+srv://seno:masukDB@nodejs.mzlse5b.mongodb.net/fullstackTasks?",
     );
     console.log("Connected to MongoDB");
     app.listen(port, () => {
