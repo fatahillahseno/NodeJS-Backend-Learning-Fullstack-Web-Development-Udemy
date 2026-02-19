@@ -1,5 +1,5 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const Task = require("./task.schema.js");
+const createTaskProvider = require("./providers/createTask.provider.js");
 
 function handleGetTasks(req, res) {
   let response = [
@@ -32,18 +32,8 @@ function handleGetTasks(req, res) {
 }
 
 async function handlePostTasks(req, res) {
-  // buat task
-  const task = new Task({
-    title: req.body.title,
-    description: req.body.description,
-    status: req.body.status,
-    priority: req.body.priority,
-    dueDate: req.body.dueDate,
-  });
-
-  // tunggu sampai data tersimpan ke database
-  await task.save();
-
+  // membuat task dari hasil createTaskProvider
+  const task = await createTaskProvider(req, res);
   // kirim response ke client
   res.status(StatusCodes.CREATED).json(task);
 }
