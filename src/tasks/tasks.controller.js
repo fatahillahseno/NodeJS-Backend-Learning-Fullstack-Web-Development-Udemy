@@ -1,39 +1,15 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const createTaskProvider = require("./providers/createTask.provider.js");
+const getTaskProvider = require("./providers/getTasks.provider.js");
 
-function handleGetTasks(req, res) {
-  let response = [
-    {
-      title: "Title of the Task",
-      date: "2026-01-27T08:12:00.000Z",
-      description:
-        "Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task",
-      priority: "normal",
-      status: "todo",
-    },
-    {
-      title: "Title of the Task 2",
-      date: "2026-01-27T08:12:00.000Z",
-      description:
-        "Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task",
-      priority: "normal",
-      status: "todo",
-    },
-    {
-      title: "Title of the Task 3",
-      date: "2026-01-27T08:12:00.000Z",
-      description:
-        "Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task",
-      priority: "normal",
-      status: "todo",
-    },
-  ];
-  res.status(StatusCodes.OK).json(response);
+async function handleGetTasks(req, res) {
+  const tasks = await getTaskProvider(req);
+  res.status(StatusCodes.OK).json(tasks);
 }
 
 async function handlePostTasks(req, res) {
   // membuat task dari hasil createTaskProvider
-  const task = await createTaskProvider(req, res);
+  const task = await createTaskProvider(req);
   // kirim response ke client
   res.status(StatusCodes.CREATED).json(task);
 }

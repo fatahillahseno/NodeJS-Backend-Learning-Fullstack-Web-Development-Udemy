@@ -1,6 +1,6 @@
 const Task = require("../task.schema.js");
 
-async function createTaskProvider(req, res) {
+async function createTaskProvider(req) {
   // buat task
   const task = new Task({
     title: req.body.title,
