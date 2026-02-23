@@ -9,7 +9,8 @@ function responseFormatter(req, res, next) {
         res.statusCode >= 200 && res.statusCode < 300 ? "Success" : "Error",
       statusCode: res.statusCode,
       message: getReasonPhrase(res.statusCode),
-      data: data,
+      data: res.statusCode >= 200 && res.statusCode < 300 ? data : null,
+      error: res.statusCode >= 200 && res.statusCode < 300 ? null : data,
     };
 
     originalJSON.call(res, response);
