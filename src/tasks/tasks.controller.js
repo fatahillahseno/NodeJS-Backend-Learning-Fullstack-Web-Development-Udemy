@@ -5,24 +5,21 @@ const updateTaskProvider = require("./providers/updateTask.provider.js");
 const deleteTaskProvider = require("./providers/deleteTask.provider.js");
 
 async function handleGetTasks(req, res) {
-  const tasks = await getTasksProvider(req);
+  const tasks = await getTasksProvider(req, res);
   res.status(StatusCodes.OK).json(tasks);
 }
 
 async function handlePostTasks(req, res) {
-  // membuat task dari hasil createTaskProvider
-  const task = await createTaskProvider(req);
-  // kirim response ke client
-  res.status(StatusCodes.CREATED).json(task);
+  return await createTaskProvider(req, res);
 }
 
 async function handlePatchTasks(req, res) {
-  const updatedTask = await updateTaskProvider(req);
+  const updatedTask = await updateTaskProvider(req, res);
   res.status(StatusCodes.OK).json(updatedTask);
 }
 
 async function handleDeleteTasks(req, res) {
-  const deletedTask = await deleteTaskProvider(req);
+  const deletedTask = await deleteTaskProvider(req, res);
   res.status(StatusCodes.OK).json(deletedTask);
 }
 
