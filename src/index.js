@@ -23,6 +23,9 @@ const responseFormatter = require("./middleware/responseFormatter.middleware.js"
 // import npm mongoose
 const mongoose = require("mongoose");
 
+// import logger express-winston
+const expressWinstonMiddleware = require("./middleware/expressWinston.middleware.js");
+
 // 1. untuk logging
 const morgan = require("morgan");
 const fs = require("fs");
@@ -53,12 +56,16 @@ app.use(express.json());
 // menempatkan di setelah semua middleware lain tetapi sebelum route
 app.use(responseFormatter);
 
-// 5. defines routes
+// 5. Express-Winston Middleware
+// middleware untuk mencatat logging request dan response dengan menggunakan winston
+app.use(expressWinstonMiddleware);
+
+// 6. defines routes
 app.use("/", tasksRouter);
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 
-// 6. default route untuk endpoints yang tidak ditemukan
+// 7. default route untuk endpoints yang tidak ditemukan
 app.use((req, res) => {
   res.status(StatusCodes.NOT_FOUND).json(null);
 });
@@ -66,7 +73,7 @@ app.use((req, res) => {
 async function bootstrap() {
   try {
     await mongoose.connect(
-      "mongodb+srv://seno:masukDB@nodejs.mzlse5b.mongodb.net/fullstackTasks?",
+      "mongodb+srv://seno:masukDB@nodejs.mzlse5b.mongodb.net/fullstackTasks",
     );
     console.log("Connected to MongoDB");
     app.listen(port, () => {
@@ -78,5 +85,5 @@ async function bootstrap() {
   }
 }
 
-// 7. App listen port
+// 8. App listen port
 bootstrap();
