@@ -1,7 +1,7 @@
 const Task = require("../task.schema.js");
 const { matchedData } = require("express-validator");
 const { StatusCodes } = require("http-status-codes");
-const errorLogger = require("./errorLogger.helper.js");
+const errorLogger = require("../../helpers/errorLogger.helper.js");
 
 async function createTaskProvider(req, res) {
   const validatedTaskData = matchedData(req);
