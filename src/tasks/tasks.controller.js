@@ -12,10 +12,9 @@ async function handlePostTasks(req, res) {
   return await createTaskProvider(req, res);
 }
 
-async function handlePatchTasks(req, res) {
-  const updatedTask = await updateTaskProvider(req, res);
-  res.status(StatusCodes.OK).json(updatedTask);
-}
+  async function handlePatchTasks(req, res) {
+    return await updateTaskProvider(req, res);
+  }
 
 async function handleDeleteTasks(req, res) {
   const deletedTask = await deleteTaskProvider(req, res);

@@ -2,10 +2,6 @@
   Content-Type: application/json
   
   {   
-    "_id": "699bb8c20ccc3601d14ce8fc",
-    "title":"Title of the Task 5",
-    "dueDate":"2026-01-27T08:12:00.000Z",
-    "description":"Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task",
-    "priority":"normal",
-    "status":"todo"
+    "_id": "699536e98c2ce67b6d5b642c",
+    "title":"Title of the Task 1 - Updated V.2"
   }
