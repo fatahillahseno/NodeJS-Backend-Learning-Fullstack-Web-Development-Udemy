@@ -1,7 +1,19 @@
 const Task = require("../task.schema.js");
+const { matchedData } = require("express-validator");
+const { StatusCodes } = require("http-status-codes");
+const errorLogger = require("../../helpers/errorLogger.helper.js");
 
-async function deleteTaskProvider(req) {
-  return await Task.deleteOne({ _id: req.body["_id"] });
+async function deleteTaskProvider(req, res) {
+  const validatedTaskData = matchedData(req);
+  try {
+    const deletedTask = await Task.deleteOne({ _id: validatedTaskData["_id"] });
+    return res.status(StatusCodes.OK).json(deletedTask);
+  } catch (error) {
+    errorLogger(`Error deleting the task: ${error.message}`, req, error);
+    return res.status(StatusCodes.GATEWAY_TIMEOUT).json({
+      reason: "Unable to process your request at the moment, please try later",
+    });
+  }
 }
 
 module.exports = deleteTaskProvider;
