@@ -1,81 +1,39 @@
 const dns = require("node:dns/promises");
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
-// set up express app
-const express = require("express");
-const app = express();
-const port = 3001;
-
-// import status code
-const { StatusCodes } = require("http-status-codes");
-
-// import security
-const cors = require("cors");
-
-// import route
-const tasksRouter = require("./tasks/tasks.router.js");
-const authRouter = require("./auth/auth.router.js");
-const usersRouter = require("./users/users.router.js");
-
-// import middleware
-const responseFormatter = require("./middleware/responseFormatter.middleware.js");
-
 // import npm mongoose
 const mongoose = require("mongoose");
 
-// import logger express-winston
-const expressWinstonMiddleware = require("./middleware/expressWinston.middleware.js");
+// import configureApp yang berisi middleware
+const configureApp = require("./settings/config.js");
 
-// 1. untuk logging
-const morgan = require("morgan");
-const fs = require("fs");
-const path = require("path");
-// middleware untuk mencatat logging request, saat endpoints diakses
-let accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "..", "access.log"),
-  {
-    flags: "a",
-  },
-);
-app.use(morgan("combined", { stream: accessLogStream }));
+// import dotenv untuk membaca file .env
+const dotEnv = require("dotenv");
 
-// 2. cors
-// jika pada production harus menggunakan code di bawah ini
-// const corsOptions = {
-//   origin: ["http://localhost:3000", "http://127.0.0.1:5500"],
-// };
-// app.use(cors(corsOptions));
-app.use(cors()); // membiarkan semua domain mengakses api
+// periksa apakah env variables sudah ada, jika sudah ada ambil dari file .env,
+// jika tidak ada gunakan default value
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-// 3. JSON Parser
-// middleware untuk membaca json request
-app.use(express.json());
+// simpan pada envFile berdasarkan env variables NODE_ENV
+// contoh: jika NODE_ENV=development maka envFile = .env.development
+const envFile = `.env.${process.env.NODE_ENV}`;
 
-// 4. Response Formatter Middleware
-// middleware untuk memformat response
-// menempatkan di setelah semua middleware lain tetapi sebelum route
-app.use(responseFormatter);
+// dotenv.config() untuk membaca file .env dan menyimpan pada process.env
+dotEnv.config({ path: envFile });
 
-// 5. Express-Winston Middleware
-// middleware untuk mencatat logging request dan response dengan menggunakan winston
-app.use(expressWinstonMiddleware);
+// set up express app
+const express = require("express");
+const app = express();
+const port = parseInt(process.env.PORT) || 3001;
 
-// 6. defines routes
-app.use("/", tasksRouter);
-app.use("/auth", authRouter);
-app.use("/users", usersRouter);
-
-// 7. default route untuk endpoints yang tidak ditemukan
-app.use((req, res) => {
-  res.status(StatusCodes.NOT_FOUND).json(null);
-});
+configureApp(app);
 
 async function bootstrap() {
   try {
-    await mongoose.connect(
-      "mongodb+srv://seno:masukDB@nodejs.mzlse5b.mongodb.net/fullstackTasks",
-    );
-    console.log("Connected to MongoDB");
+    await mongoose.connect(process.env.DATABASE_URL, {
+      dbName: process.env.DATABASE_NAME,
+    });
+    console.log(`Connected to ${process.env.DATABASE_NAME}`);
     app.listen(port, () => {
       console.log(`App listening on port number ${port}`);
     });
@@ -85,5 +43,5 @@ async function bootstrap() {
   }
 }
 
-// 8. App listen port
+// App listen port
 bootstrap();
