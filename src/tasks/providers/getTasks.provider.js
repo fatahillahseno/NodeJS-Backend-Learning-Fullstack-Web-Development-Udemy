@@ -4,12 +4,51 @@ const { StatusCodes } = require("http-status-codes");
 const errorLogger = require("../../helpers/errorLogger.helper.js");
 
 async function getTasksProvider(req, res) {
-  const query = matchedData(req);
-
-  console.log(query);
+  const data = matchedData(req);
+  console.log(data);
+  console.log(req.originalUrl);
   try {
-    const tasks = await Task.find();
-    return res.status(StatusCodes.OK).json(tasks);
+    // ambil dari data query
+    const limit = data.limit;
+    const order = data.order;
+    const currentPage = data.page;
+
+    // hitung total task dan page
+    const totalTasks = await Task.countDocuments();
+    const totalPages = Math.ceil(totalTasks / limit);
+
+    // page
+    const nextPage = currentPage === totalPages ? currentPage : currentPage + 1;
+    const previousPage = currentPage === 1 ? currentPage : currentPage - 1;
+
+    // untuk link
+    const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`;
+
+    const tasks = await Task.find()
+      .skip((currentPage - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: order === "asc" ? 1 : -1 });
+
+    let finalResponse = {
+      data: tasks,
+      pagination: {
+        meta: {
+          itemsPerPage: limit,
+          totalItems: totalTasks,
+          currentPage: currentPage,
+          totalPages: totalPages,
+        },
+        links: {
+          first: `${baseUrl}/?limit=${limit}&page=${1}&order=${order}`,
+          last: `${baseUrl}/?limit=${limit}&page=${totalPages}&order=${order}`,
+          current: `${baseUrl}/?limit=${limit}&page=${currentPage}&order=${order}`,
+          next: `${baseUrl}/?limit=${limit}&page=${nextPage}&order=${order}`,
+          previous: `${baseUrl}/?limit=${limit}&page=${previousPage}&order=${order}`,
+        },
+      },
+    };
+
+    return res.status(StatusCodes.OK).json(finalResponse);
   } catch (error) {
     errorLogger(`Error fetching tasks: ${error.message}`, req, error);
     return res.status(StatusCodes.GATEWAY_TIMEOUT).json({
