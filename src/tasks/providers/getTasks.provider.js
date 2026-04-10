@@ -8,13 +8,15 @@ async function getTasksProvider(req, res) {
   console.log(data);
   console.log(req.originalUrl);
   try {
+    const filter = { status: { $in: ["todo", "inProgress"] } };
+
     // ambil dari data query
     const limit = data.limit;
     const order = data.order;
     const currentPage = data.page;
 
     // hitung total task dan page
-    const totalTasks = await Task.countDocuments();
+    const totalTasks = await Task.countDocuments(filter);
     const totalPages = Math.ceil(totalTasks / limit);
 
     // page
@@ -24,7 +26,7 @@ async function getTasksProvider(req, res) {
     // untuk link
     const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`;
 
-    const tasks = await Task.find()
+    const tasks = await Task.find(filter)
       .skip((currentPage - 1) * limit)
       .limit(limit)
       .sort({ createdAt: order === "asc" ? 1 : -1 });
