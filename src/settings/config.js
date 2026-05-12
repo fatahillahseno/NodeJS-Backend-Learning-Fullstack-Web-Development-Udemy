@@ -4,12 +4,14 @@ const cors = require("cors");
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
+const swaggerUi = require("swagger-ui-express");
 
 const tasksRouter = require("../tasks/tasks.router.js");
 const authRouter = require("../auth/auth.router.js");
 const usersRouter = require("../users/users.router.js");
 const responseFormatter = require("../middleware/responseFormatter.middleware.js");
 const expressWinstonMiddleware = require("../middleware/expressWinston.middleware.js");
+const swaggerSpecs = require("./swagger.config.js");
 
 function configureApp(app) {
   // 1. untuk logging
@@ -48,7 +50,10 @@ function configureApp(app) {
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
 
-  // 7. default route untuk endpoints yang tidak ditemukan
+  // 7. swagger ui
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+
+  // 8. default route untuk endpoints yang tidak ditemukan
   app.use((req, res) => {
     res.status(StatusCodes.NOT_FOUND).json(null);
   });

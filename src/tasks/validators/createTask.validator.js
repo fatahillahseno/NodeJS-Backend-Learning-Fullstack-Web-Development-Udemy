@@ -8,6 +8,10 @@ const createTaskValidator = [
     max: 100,
   }),
 
+  body("dueDate", "The dueDate needs to be a valid ISO8601 string")
+    .notEmpty()
+    .isISO8601(),
+
   body(
     "description",
     "The description must be a string and needs to be a string",
@@ -22,13 +26,8 @@ const createTaskValidator = [
     max: 500,
   }),
 
-  body("status").isIn(["todo", "inProgress", "completed"]),
-
   body("priority").isIn(["low", "normal", "high"]),
-
-  body("dueDate", "The dueDate needs to be a valid ISO8601 string")
-    .notEmpty()
-    .isISO8601(),
+  body("status").isIn(["todo", "inProgress", "completed"]),
 ];
 
 module.exports = createTaskValidator;

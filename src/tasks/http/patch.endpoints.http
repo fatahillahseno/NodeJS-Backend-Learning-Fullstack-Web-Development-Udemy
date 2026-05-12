@@ -1,7 +1,15 @@
   PATCH http://localhost:3001/tasks
   Content-Type: application/json
-  
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWViMzA0MDM3NzkyM2QxNmFlYTEwZTQiLCJlbWFpbCI6Imx1ZmZ5QG9uZXBpZWNlLmNvbSIsImlhdCI6MTc3NzQzMDYzOCwiZXhwIjoxNzc3NTE3MDM4fQ.CkX2j4EZFco9w9gs9ahdzHNoxAvY_uwe6qE5NhHlIX0
+
   {   
-    "_id": "699536e98c2ce67b6d5b642c",
-    "title":"Title of the Task 1 - Updated V.2"
+    "title": "Title of the Task 7 - Updated",
+    "description": "Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task",
+    "status": "todo",
+    "priority": "normal",
+    "dueDate": "2026-01-27T08:12:00.000Z",
+    "user": "69eb3040377923d16aea10e4",
+    "_id": "69f18fbb7cf89c2d2813cbfe",
+    "createdAt": "2026-04-29T04:57:31.271Z",
+    "updatedAt": "2026-04-29T04:57:31.271Z"
   }

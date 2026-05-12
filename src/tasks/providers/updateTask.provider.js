@@ -6,7 +6,10 @@ const errorLogger = require("../../helpers/errorLogger.helper.js");
 async function updateTaskProvider(req, res) {
   const validatedTaskData = matchedData(req);
   try {
-    const task = await Task.findById(validatedTaskData._id);
+    const taskId = validatedTaskData._id;
+    const userId = req.user.sub;
+
+    const task = await Task.findOne({ _id: taskId, user: userId });
 
     if (!task) {
       return res.status(StatusCodes.NOT_FOUND).json({

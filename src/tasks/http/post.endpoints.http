@@ -1,8 +1,8 @@
   POST http://localhost:3001/tasks
   Content-Type: application/json
-  
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWViMzA0MDM3NzkyM2QxNmFlYTEwZTQiLCJlbWFpbCI6Imx1ZmZ5QG9uZXBpZWNlLmNvbSIsImlhdCI6MTc3NzYwMjgyOCwiZXhwIjoxNzc3Njg5MjI4fQ.8tuIjlme5sFBG9bJbnZGydH6kg7B3EU7TW5hOX6kg4k
   {   
-    "title":"Title of the Task 24",
+    "title":"Title of the Task 2 - luffy",
     "dueDate":"2026-01-27T08:12:00.000Z",
     "description":"Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task Description of the Task",
     "priority":"normal",

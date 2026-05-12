@@ -8,7 +8,10 @@ async function getTasksProvider(req, res) {
   console.log(data);
   console.log(req.originalUrl);
   try {
-    const filter = { status: { $in: ["todo", "inProgress"] } };
+    const filter = {
+      user: req.user.sub,
+      status: { $in: ["todo", "inProgress"] },
+    };
 
     // ambil dari data query
     const limit = data.limit;
@@ -17,7 +20,7 @@ async function getTasksProvider(req, res) {
 
     // hitung total task dan page
     const totalTasks = await Task.countDocuments(filter);
-    const totalPages = Math.ceil(totalTasks / limit);
+    const totalPages = Math.ceil(totalTasks / limit) || 1;
 
     // page
     const nextPage = currentPage === totalPages ? currentPage : currentPage + 1;
@@ -41,11 +44,11 @@ async function getTasksProvider(req, res) {
           totalPages: totalPages,
         },
         links: {
-          first: `${baseUrl}/?limit=${limit}&page=${1}&order=${order}`,
-          last: `${baseUrl}/?limit=${limit}&page=${totalPages}&order=${order}`,
-          current: `${baseUrl}/?limit=${limit}&page=${currentPage}&order=${order}`,
-          next: `${baseUrl}/?limit=${limit}&page=${nextPage}&order=${order}`,
-          previous: `${baseUrl}/?limit=${limit}&page=${previousPage}&order=${order}`,
+          first: `${baseUrl}?limit=${limit}&page=${1}&order=${order}`,
+          last: `${baseUrl}?limit=${limit}&page=${totalPages}&order=${order}`,
+          current: `${baseUrl}?limit=${limit}&page=${currentPage}&order=${order}`,
+          next: `${baseUrl}?limit=${limit}&page=${nextPage}&order=${order}`,
+          previous: `${baseUrl}?limit=${limit}&page=${previousPage}&order=${order}`,
         },
       },
     };

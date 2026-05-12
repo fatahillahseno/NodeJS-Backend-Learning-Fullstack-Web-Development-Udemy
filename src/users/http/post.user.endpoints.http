@@ -2,8 +2,8 @@ POST http://localhost:3001/users/create
 Content-Type: application/json
 
 {
-  "firstName": "zoro",
-  "lastName": "lastname",
-  "email":"zoro@onepiece.com",
+  "firstName": "luffy",
+  "lastName": "monkey d.",
+  "email":"luffy@onepiece.com",
   "password": "StrawHat123_"
 }
