@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-test
+
 const taskSchema = new Schema(
   {
     title: {
@@ -44,3 +44,44 @@ const taskSchema = new Schema(
 
 const Task = model("Task", taskSchema);
 module.exports = Task;
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    Task:
+ *      type: object
+ *      required: 
+ *        - title
+ *        - description
+ *        - status
+ *        - priority
+ *        - dueDate
+ *      properties:
+ *        title:
+ *          type: string
+ *          description: The title of the task
+ *          maxLength: 100
+ *        description:
+ *          type: string
+ *          description: The description of the task
+ *          maxLength: 500
+ *        status:
+ *          type: string
+ *          description: The status of the task
+ *          enum: [todo, inProgress, completed]
+ *        priority:
+ *          type: string
+ *          description: The priority of the task
+ *          enum: [low,normal,high]
+ *        dueDate:
+ *          type: string
+ *          format: ISO8601 Date String
+ *          description: The due date of the task 
+ *      example:
+ *        title: Exercise
+ *        description: Calisthenics Work Out
+ *        status: todo
+ *        priority: normal
+ *        dueDate: 2026-05-19T04:16:44+00:00
+ */

@@ -15,7 +15,7 @@ const options = {
       },
       contact: {
         name: "Sense",
-        url: "https://github.com/sense",
+        url: "https://github.com/fatahillahseno",
         email: "sense@gmail.com",
       },
     },
