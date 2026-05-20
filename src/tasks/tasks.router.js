@@ -15,6 +15,80 @@ const getTasksValidator = require("./validators/getTasks.validator.js");
 const updateTaskValidator = require("./validators/updateTask.validator.js");
 const deleteTaskValidator = require("./validators/deleteTask.validator.js");
 
+
+/**
+ * @swagger
+ * 
+ * components:
+ *  securitySchemes:
+ *    bearerAuth: 
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
+ * /tasks:
+ *  get:
+ *    summary: Get all tasks
+ *    tags: [Tasks]
+ *    security:
+ *      - bearerAuth: []
+ *    parameters: 
+ *      - in : query
+ *        name: limit
+ *        schema: 
+ *          type: integer
+ *          default: 10
+ *        description: The number of tasks needed in a single response
+ *      - in : query
+ *        name: page
+ *        schema: 
+ *          type: integer
+ *          default: 1
+ *        description: The page number of tasks response
+ *      - in : query
+ *        name: order
+ *        schema: 
+ *          type: string
+ *          default: asc
+ *          enum: [asc, desc]
+ *        description: The order of the tasks   
+ *    responses:
+ *      200: 
+ *        description: Task fetched successfully 
+ *        content:
+ *          application/json:
+ *            example:
+ *              status: success
+ *              statusCode: 200
+ *              message: OK
+ *              data: 
+ *                - _id: 69eb3040377923d16aea10e4
+ *                  title: Exercise
+ *                  description: Calisthenics Work Out
+ *                  status: todo
+ *                  priority: normal
+ *                  dueDate: 2026-05-19T04:16:44+00:00
+ *      401:
+ *        description: Not Authorized Error
+ *        content:
+ *          application/json:
+ *            example:
+ *              status: error
+ *              statusCode: 401
+ *              message: Unauthorized
+ *              error: 
+ *                message: You are not authorized to perform this request
+ *      403:
+ *        description: Forbidden Error
+ *        content:
+ *          application/json:
+ *            example:
+ *              status: error
+ *              statusCode: 403
+ *              message: Forbidden
+ *              error: 
+ *                message: Please Login again, invalid token 
+ */
+
 tasksRouter.get(
   "/tasks",
   [authenticateToken, getTasksValidator, handleValidationErrorMiddleware],
